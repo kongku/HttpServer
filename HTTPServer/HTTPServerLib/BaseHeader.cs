@@ -29,15 +29,16 @@ namespace HTTPServerLib
         {
             var fieldName = header.GetDescription();
             if (fieldName == null) return null;
-            var hasKey = Headers.ContainsKey(fieldName);
+            var hasKey = Headers == null ? false : Headers.ContainsKey(fieldName);
             if (!hasKey) return null;
+            Console.WriteLine(Headers[fieldName]);
             return Headers[fieldName];
         }
 
         protected string GetHeaderByKey(string fieldName)
         {
             if (string.IsNullOrEmpty(fieldName)) return null;
-            var hasKey = Headers.ContainsKey(fieldName);
+            var hasKey = Headers==null?false: Headers.ContainsKey(fieldName);
             if (!hasKey) return null;
             return Headers[fieldName];
         }
@@ -49,7 +50,7 @@ namespace HTTPServerLib
         {
             var fieldName = header.GetDescription();
             if (fieldName == null) return;
-            var hasKey = Headers.ContainsKey(fieldName);
+            var hasKey = Headers == null ? false : Headers.ContainsKey(fieldName);
             if (!hasKey) Headers.Add(fieldName, value);
             Headers[fieldName] = value;
         }
@@ -57,7 +58,7 @@ namespace HTTPServerLib
         protected void SetHeaderByKey(string fieldName, string value)
         {
             if (string.IsNullOrEmpty(fieldName)) return;
-            var hasKey = Headers.ContainsKey(fieldName);
+            var hasKey = Headers == null ? false : Headers.ContainsKey(fieldName);
             if (!hasKey) Headers.Add(fieldName, value);
             Headers[fieldName] = value;
         }

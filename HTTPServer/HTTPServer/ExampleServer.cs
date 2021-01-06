@@ -51,8 +51,8 @@ namespace HttpServer
 
             //当文件不存在时应返回404状态码
             string requestURL = request.URL;
-            requestURL = requestURL.Replace("/", @"\").Replace("\\..", "").TrimStart('\\');
-            string requestFile = Path.Combine(ServerRoot, requestURL);
+            string[] url = requestURL.Replace("/", @"\").Replace("\\..", "").TrimStart('\\').Split(new char[]{'?'},2);
+            string requestFile = Path.Combine(ServerRoot, url[0]);
 
             //判断地址中是否存在扩展名
             string extension = Path.GetExtension(requestFile);
@@ -71,6 +71,7 @@ namespace HttpServer
                     requestFile = Path.Combine(ServerRoot, requestFile);
                     var content = ListDirectory(requestFile, requestURL);
                     response = response.SetContent(content, Encoding.UTF8);
+                    response.StatusCode = "200";
                     response.Content_Type = "text/html; charset=UTF-8";
                 } 
                 else
